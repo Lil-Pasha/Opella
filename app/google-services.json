@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1010156085462",
+    "firebase_url": "https://firstwork-fe865697-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "firstwork-fe865697",
+    "storage_bucket": "firstwork-fe865697.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1010156085462:android:612edf2dc971bbf0d1e977",
+        "android_client_info": {
+          "package_name": "com.example.secondwork"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCh_dmT0wkt9lODIDhVmm1nJFu90fvbZk8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

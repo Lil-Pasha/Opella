@@ -1,55 +1,130 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#111111"
+    android:background="#000000"
     android:padding="16dp">
 
-    <!-- Заголовок -->
-
-    <!-- Кнопка AI по центру экрана -->
+    <!-- Терминальный заголовок -->
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="97dp"
-        android:fontFamily="sans-serif-medium"
+        android:layout_marginTop="80dp"
         android:gravity="center"
-        android:text="Добро пожаловать в Synapse"
-        android:textColor="#EEEEEE"
-        android:textSize="26sp"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/btnAI"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:layout_centerInParent="true"
-        android:background="@drawable/btn_ai_minimal"
-        android:text="Начать"
-        android:textColor="#FFFFFF"
+        android:text="SYNAPS_and_OPELLA TERMINAL v1.0"
+        android:textColor="#00FF00"
         android:textSize="18sp"
-        android:textStyle="bold"
-        android:elevation="6dp" />
+        android:typeface="monospace"
+        android:fontFamily="@font/american_typewriter_rus_by_me"
+        android:letterSpacing="0.05" />
 
-    <!-- Кнопка Настройки внизу слева -->
-    <Button
-        android:id="@+id/btnSettings"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentStart="true"
+    <!-- Информация о системе -->
+    <TextView
+        android:id="@+id/systemInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_marginTop="24dp"
+        android:text="System initialized\nReady for user input"
+        android:textColor="#44AA44"
+        android:textSize="14sp"
+        android:typeface="monospace"
+        android:fontFamily="@font/american_typewriter_rus_by_me"
+        android:lineSpacingExtra="4dp"
+        android:gravity="center" />
+
+    <!-- Псевдо-терминальный вывод -->
+    <TextView
+        android:id="@+id/terminalOutput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/systemInfo"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:gravity="center"
+        android:text="Initializing system... OK\nLoading modules... OK\nSecurity protocols... ACTIVE"
+        android:textColor="#00FF00"
+        android:textSize="12sp"
+        android:typeface="monospace"
+        android:fontFamily="@font/american_typewriter_rus_by_me"
+        android:lineSpacingExtra="4dp" />
+
+    <!-- Кнопка AI -->
+    <FrameLayout
+        android:id="@+id/btnWrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/terminalOutput"
+        android:layout_centerHorizontal="true"
+        android:padding="2dp">
+
+    </FrameLayout>
+
+    <!-- Кнопка Bluetooth -->
+    <!-- Блок кнопок -->
+    <LinearLayout
+        android:id="@+id/btnBluetoothWrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnWrapper"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        android:padding="2dp">
+
+        <Button
+            android:id="@+id/btnLink"
+            android:layout_width="220dp"
+            android:layout_height="60dp"
+            android:background="@drawable/btn_terminal_selector"
+            android:text="> EDITOR"
+            android:textColor="#00FF00"
+            android:textSize="16sp"
+            android:typeface="monospace"
+            android:fontFamily="@font/american_typewriter_rus_by_me"
+            android:letterSpacing="0.05"
+            android:gravity="center"
+            android:padding="8dp" />
+
+        <Button
+            android:id="@+id/btnTaskManager"
+            android:layout_width="220dp"
+            android:layout_height="60dp"
+            android:background="@drawable/btn_terminal_selector"
+            android:text="> TASK MANAGER"
+            android:textColor="#00FF00"
+            android:textSize="16sp"
+            android:typeface="monospace"
+            android:fontFamily="@font/american_typewriter_rus_by_me"
+            android:letterSpacing="0.05"
+            android:gravity="center"
+            android:layout_marginTop="12dp"
+            android:padding="8dp"/>
+    </LinearLayout>
+
+    <!-- Новая кнопка Чат -->
+
+
+    <!-- Командная строка внизу -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="1dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="17dp"
-        android:layout_marginEnd="17dp"
-        android:layout_marginBottom="2dp"
-        android:backgroundTint="#444444"
-        android:elevation="4dp"
-        android:text="⚙"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp" />
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:background="#000000">
 
+        <TextView
+            android:id="@+id/btnSettings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="settings"
+            android:textColor="#44AA44"
+            android:textSize="14sp"
+            android:typeface="monospace"
+            android:fontFamily="@font/american_typewriter_rus_by_me"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="4dp" />
+
+    </LinearLayout>
 </RelativeLayout>

@@ -18,22 +18,21 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
+import androidx.core.content.FileProvider
+import okhttp3.*
 import org.json.JSONObject
+import java.io.File
 import java.io.IOException
 
 class SettingsActivity : AppCompatActivity() {
 
     companion object {
         const val STORAGE_PERMISSION_CODE = 1001
+        const val FILE_PROVIDER_AUTHORITY = "com.example.secondwork.fileprovider"
     }
 
     private val repoOwner = "Lil-Pasha"
-    private val repoName = "Synapse"
+    private val repoName = "Opella"
 
     private var apkDownloadUrl = ""
     private var downloadId: Long = -1
@@ -60,7 +59,7 @@ class SettingsActivity : AppCompatActivity() {
         val textUpdates = findViewById<TextView>(R.id.textUpdates)
 
         sectionUpdates.setOnClickListener {
-            textUpdates.text = "Проверка обновлений..."
+            textUpdates.text = "Checking for updates..."
             checkForUpdates(textUpdates)
         }
 
@@ -84,7 +83,8 @@ class SettingsActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val textUpdates = findViewById<TextView>(R.id.textUpdates)
-        checkForUpdates(textUpdates)
+        // You can disable auto update check on resume if you want
+        // checkForUpdates(textUpdates)
     }
 
     override fun onDestroy() {
@@ -95,25 +95,24 @@ class SettingsActivity : AppCompatActivity() {
     private fun getAppVersionName(): String {
         return try {
             val packageInfo = packageManager.getPackageInfo(packageName, 0)
-            packageInfo.versionName ?: "неизвестно"
+            packageInfo.versionName ?: "unknown"
         } catch (e: Exception) {
-            "неизвестно"
+            "unknown"
         }
     }
 
     private fun checkForUpdates(statusView: TextView) {
         val url = "https://api.github.com/repos/$repoOwner/$repoName/releases/latest"
-
         val request = Request.Builder().url(url).build()
         val client = OkHttpClient()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 runOnUiThread {
-                    statusView.text = "Ошибка сети: ${e.message}"
+                    statusView.text = "Network error: ${e.message}"
                     Toast.makeText(
                         this@SettingsActivity,
-                        "Проверьте подключение",
+                        "Check your connection",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -122,7 +121,7 @@ class SettingsActivity : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 if (!response.isSuccessful) {
                     runOnUiThread {
-                        statusView.text = "Ошибка сервера: ${response.code}"
+                        statusView.text = "Server error: ${response.code}"
                     }
                     return
                 }
@@ -130,7 +129,7 @@ class SettingsActivity : AppCompatActivity() {
                 val body = response.body?.string()
                 if (body.isNullOrEmpty()) {
                     runOnUiThread {
-                        statusView.text = "Пустой ответ от GitHub"
+                        statusView.text = "Empty response from GitHub"
                     }
                     return
                 }
@@ -153,7 +152,7 @@ class SettingsActivity : AppCompatActivity() {
 
                     if (!apkFound) {
                         runOnUiThread {
-                            statusView.text = "APK не найден в релизе"
+                            statusView.text = "No APK found in the release"
                         }
                         return
                     }
@@ -163,24 +162,24 @@ class SettingsActivity : AppCompatActivity() {
 
                     runOnUiThread {
                         if (isNewVersionAvailable(currentVersion, latestVersion)) {
-                            statusView.text = "Найдена новая версия: $latestVersion. Скачивание..."
+                            statusView.text = "New version found: $latestVersion. Downloading..."
                             requestStoragePermission()
                         } else {
-                            statusView.text = "У вас последняя версия: $currentVersion"
+                            statusView.text = "You have the latest version: $currentVersion"
                         }
                     }
                 } catch (e: Exception) {
                     runOnUiThread {
-                        statusView.text = "Ошибка обработки данных: ${e.message}"
+                        statusView.text = "Error parsing data: ${e.message}"
                     }
                 }
             }
         })
     }
+
     private fun isNewVersionAvailable(current: String, latest: String): Boolean {
-        fun parseVersion(version: String): List<Int> {
-            return version.split('.').map { it.toIntOrNull() ?: 0 }
-        }
+        fun parseVersion(version: String): List<Int> =
+            version.split('.').map { it.toIntOrNull() ?: 0 }
 
         val currentParts = parseVersion(current)
         val latestParts = parseVersion(latest)
@@ -197,7 +196,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun requestStoragePermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) { // before Android 10
             if (ContextCompat.checkSelfPermission(
                     this,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -228,7 +227,7 @@ class SettingsActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(
                     this,
-                    "Разрешение на запись необходимо для обновления",
+                    "Storage permission is required for update",
                     Toast.LENGTH_LONG
                 ).show()
             }
@@ -238,10 +237,10 @@ class SettingsActivity : AppCompatActivity() {
     private fun downloadApk() {
         if (apkDownloadUrl.isEmpty()) return
 
-        val fileName = "Synapse_${System.currentTimeMillis()}.apk"
+        val fileName = "Opella_${System.currentTimeMillis()}.apk"
         val request = DownloadManager.Request(Uri.parse(apkDownloadUrl))
-            .setTitle("Обновление Synapse")
-            .setDescription("Скачивание новой версии")
+            .setTitle("Opella update")
+            .setDescription("Downloading new version")
             .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
             .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
 
@@ -249,8 +248,34 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun installApk() {
-        // Здесь можно реализовать логику установки скачанного APK,
-        // например через Intent ACTION_VIEW с правильным Uri и флагами,
-        // либо просто уведомить пользователя, что загрузка завершена.
+        // Path to the downloaded file from DownloadManager
+        val query = DownloadManager.Query().setFilterById(downloadId)
+        val cursor = downloadManager.query(query)
+        if (cursor != null && cursor.moveToFirst()) {
+            val uriIndex = cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI)
+            if (uriIndex == -1) {
+                Toast.makeText(this, "Failed to get file path", Toast.LENGTH_SHORT).show()
+                cursor.close()
+                return
+            }
+            val uriString = cursor.getString(uriIndex)
+
+            val fileUri = Uri.parse(uriString)
+            val file = File(fileUri.path ?: "")
+            if (!file.exists()) {
+                Toast.makeText(this, "Installation file not found", Toast.LENGTH_SHORT).show()
+                return
+            }
+
+            // Create Uri using FileProvider
+            val apkUri = FileProvider.getUriForFile(this, FILE_PROVIDER_AUTHORITY, file)
+
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.setDataAndType(apkUri, "application/vnd.android.package-archive")
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
+            startActivity(intent)
+        } else {
+            Toast.makeText(this, "Error trying to install APK", Toast.LENGTH_SHORT).show()
+        }
     }
 }

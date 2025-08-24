@@ -2,14 +2,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#111111"
-    android:padding="16dp">
+    android:background="#000000"
+    android:padding="16dp"
+    android:textColor="#00FF00"
+    android:fontFamily="@font/american_typewriter_rus_by_me">
 
-    <!-- Кнопка Назад как стрелка -->
-
-    <!-- Заголовок -->
-
-    <!-- Обновления -->
 
     <ImageView
         android:id="@+id/btnBack"
@@ -18,9 +15,10 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="16dp"
         android:layout_marginTop="39dp"
-        android:contentDescription="Назад"
+        android:contentDescription="Back"
         android:src="@drawable/ic_back_arrow"
-        app:tint="#FFFFFF" />
+        android:textColor="#00FF00"
+        android:fontFamily="@font/american_typewriter_rus_by_me"/>
 
     <TextView
         android:id="@+id/settingsTitle"
@@ -33,10 +31,11 @@
         android:layout_marginTop="0dp"
         android:layout_marginEnd="55dp"
         android:gravity="center"
-        android:text="Настройки"
-        android:textColor="#FFFFFF"
+        android:text="Settings"
         android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="#00FF00"
+        android:fontFamily="@font/american_typewriter_rus_by_me"/>
 
     <TextView
         android:id="@+id/sectionUpdates"
@@ -46,26 +45,30 @@
         android:layout_marginTop="48dp"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
-        android:text="Обновления"
-        android:textColor="#FFFFFF"
+        android:text="Updates"
         android:textSize="18sp"
         android:textStyle="bold"
         android:clickable="true"
         android:focusable="true"
-        android:background="?attr/selectableItemBackground" />
+        android:background="?attr/selectableItemBackground"
+        android:textColor="#00FF00"
+        android:fontFamily="@font/american_typewriter_rus_by_me"/>
 
     <TextView
         android:id="@+id/textUpdates"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/sectionUpdates"
-        android:text="Вы используете последнюю стабильную версию."
-        android:textColor="#CCCCCC"
+        android:text="You are using the latest stable version."
         android:textSize="14sp"
         android:layout_marginTop="8dp"
         android:paddingStart="12dp"
-        android:paddingEnd="12dp" />
-    <!-- О программе -->
+        android:paddingEnd="12dp"
+        android:textColor="#00FF00"
+        android:fontFamily="@font/american_typewriter_rus_by_me"/>
+
+    <!-- About -->
+
     <TextView
         android:id="@+id/sectionAbout"
         android:layout_width="match_parent"
@@ -74,10 +77,11 @@
         android:layout_marginTop="32dp"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
-        android:text="О программе"
-        android:textColor="#FFFFFF"
+        android:text="About"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="#00FF00"
+        android:fontFamily="@font/american_typewriter_rus_by_me"/>
 
     <TextView
         android:id="@+id/textAbout"
@@ -87,11 +91,13 @@
         android:layout_marginTop="8dp"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
-        android:text="Разработчик: ХХХ\nВерсия: 1.0.1\nGitHub: github.com/Lil-Pasha/Synapse"
-        android:textColor="#CCCCCC"
-        android:textSize="14sp" />
+        android:text="Developer: Битый бинарник\nVersion: 1.2.0\nGitHub: github.com/Lil-Pasha/Opella"
+        android:textSize="14sp"
+        android:textColor="#00FF00"
+        android:fontFamily="@font/american_typewriter_rus_by_me"/>
 
-    <!-- Связь -->
+    <!-- Contact -->
+
     <TextView
         android:id="@+id/sectionContact"
         android:layout_width="match_parent"
@@ -100,11 +106,11 @@
         android:layout_marginTop="32dp"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
-        android:text="Связь"
-        android:textColor="#FFFFFF"
+        android:text="Contact"
         android:textSize="18sp"
-        android:textStyle="bold" />
-
+        android:textStyle="bold"
+        android:textColor="#00FF00"
+        android:fontFamily="@font/american_typewriter_rus_by_me" />
     <TextView
         android:id="@+id/textContact"
         android:layout_width="match_parent"
@@ -113,9 +119,38 @@
         android:layout_marginTop="8dp"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
-        android:text="Telegram: @mr_pablo3\nDiscord: Pashtetus!"
-        android:textColor="#CCCCCC"
-        android:textSize="14sp" />
+        android:text="Telegram: @mr_pablo3\nDiscord: Pashtetus"
+        android:textSize="14sp"
+        android:textColor="#00FF00"
+        android:fontFamily="@font/american_typewriter_rus_by_me"/>
+    <!-- Окно для списка обновлений -->
+    <EditText
+        android:id="@+id/editUpdateNotes"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_below="@id/textContact"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/edittext_border"
+        android:textColor="#00FF00"
+        android:textColorHint="#448844"
+        android:text="This update upgrades the terminal into a complete Task Manager and system monitoring tool with root-level functionality. It provides detailed real-time information about running processes, including PID, CPU usage, RAM consumption, and application name, all neatly color-coded for easy readability. Users can execute commands to view system stats, manage processes (including killing them), and retrieve information about battery, CPU frequencies, and memory usage.
 
+A real-time CPU graph visualizes processor load, while RAM and storage stats are updated live. Each session begins with a clean terminal screen, ensuring an uncluttered workspace. All user commands and system responses are logged for later reference, giving a comprehensive overview of system activity.
+
+The app leverages root permissions for enhanced monitoring and process control, making it a powerful tool for advanced users who want detailed insights into their Android device."
+        android:gravity="top|start"
+        android:textSize="14sp"
+        android:inputType="textMultiLine"
+        android:maxLines="10"
+        android:scrollbars="vertical"
+        android:fontFamily="@font/american_typewriter_rus_by_me"
+        android:typeface="monospace"
+        android:focusable="false"
+        android:cursorVisible="false"
+        android:longClickable="false"
+        android:clickable="false"
+        android:padding="10dp" />
 
 </RelativeLayout>
