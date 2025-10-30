@@ -134,28 +134,39 @@ class HistoryActivity : AppCompatActivity() {
 
     /** /top [N] — top processes by CPU */
     private fun showTop(input: String) {
-        val count = input.split(" ").getOrNull(1)?.toIntOrNull() ?: 10
-        addMessage("system:~$ TOP $count apps by CPU usage:")
-        appendToLog("system:~$ TOP $count apps by CPU usage:")
-        thread {
+    val count = input.split(" ").getOrNull(1)?.toIntOrNull() ?: 10
+    addMessage("system:~$ TOP $count apps by CPU usage:")
+    appendToLog("system:~$ TOP $count apps by CPU usage:")
+
+    thread {
+        try {
             val processes = parseProcessList().sortedByDescending { it.cpu }.take(count)
-            val header = String.format("%-7s %-10s %-6s %-8s %-s", "PID", "USER", "CPU%", "RAM(MB)", "NAME")
-            runOnUiThread {
-                addMessage(header)
-                appendToLog(header)
-            }
+            val sb = StringBuilder()
+            sb.append(String.format("%-7s %-10s %-6s %-8s %-s\n", "PID", "USER", "CPU%", "RAM(MB)", "NAME"))
+
             for (p in processes) {
-                val line = String.format(
-                    "%-7s %-10s %-6.1f %-8.1f %-s",
-                    p.pid, p.user, p.cpu, p.mem, p.name
+                sb.append(
+                    String.format(
+                        "%-7s %-10s %-6.1f %-8.1f %-s\n",
+                        p.pid, p.user, p.cpu, p.mem, p.name
+                    )
                 )
-                runOnUiThread {
-                    addMessage(line)
-                    appendToLog(line)
-                }
+            }
+
+            val result = sb.toString()
+            runOnUiThread {
+                addMessage(result)
+                appendToLog(result)
+            }
+
+        } catch (e: Exception) {
+            runOnUiThread {
+                addMessage("system:~$ Error executing /top: ${e.message}")
             }
         }
     }
+}
+
 
     /** /kill PID — terminate process */
     private fun killProcessCommand(pid: String) {
